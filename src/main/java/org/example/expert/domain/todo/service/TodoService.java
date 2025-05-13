@@ -1,5 +1,6 @@
 package org.example.expert.domain.todo.service;
 
+import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.example.expert.client.WeatherClient;
 import org.example.expert.domain.common.dto.AuthUser;
@@ -16,6 +17,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -78,5 +82,9 @@ public class TodoService {
                 todo.getCreatedAt(),
                 todo.getModifiedAt()
         );
+    }
+
+    public List<Todo> getTodos(String weather, LocalDateTime startTime, LocalDateTime endTime) {
+        return todoRepository.findByWeatherOrModifiedAt(weather, startTime, endTime);
     }
 }
